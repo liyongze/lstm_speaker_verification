@@ -104,16 +104,12 @@ def main(_):
     max_training_step = int(max_training_step/2)           ######################3#######
     tf.logging.info('total steps %d: ', max_training_step)
     for training_step in range(max_training_step):
-        '''
         if training_step%2 == 0:    #samples positive
             trials = all_trials_p[int(training_step/2)*FLAGS.batch_size:(int(training_step/2)+1)*FLAGS.batch_size]
             train_voiceprint, label = audio_data_processor.get_data(trials, read_mfcc_buffer, 1)   # get one batch of tuples for training
         else:              #samples negative
             trials = all_trials_n[int((training_step-1)/2)*FLAGS.batch_size:(int((training_step-1)/2)+1)*FLAGS.batch_size]
             train_voiceprint, label = audio_data_processor.get_data(trials, read_mfcc_buffer, 0)   # get one batch of tuples for training
-        '''
-        trials = all_trials_n[training_step * FLAGS.batch_size:(training_step+1)*FLAGS.batch_size]
-        train_voiceprint, label = audio_data_processor.get_data(trials, read_mfcc_buffer, 0)
         #shape of train_voiceprint: (tuple_size, feature_size)    
         #shape of  label:  (1)
         train_summary, train_loss, _ = sess.run([merged_summaries, loss, train_step],
